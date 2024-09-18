@@ -47,7 +47,8 @@ public:
 	void InitializeStateMachine();
 
 protected:
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<USmashCharacterStateMachine> StateMachine;
+	
 #pragma endregion
 };
