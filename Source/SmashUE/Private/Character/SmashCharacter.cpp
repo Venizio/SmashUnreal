@@ -3,15 +3,15 @@
 
 #include "Character/SmashCharacter.h"
 
-#include "Arena/ArenaPlayerStart.h"
+#include "AssetTypeActions/AssetDefinition_SoundBase.h"
 #include "Character/SmashCharacterStateMachine.h"
+#include "Interfaces/ITargetDevice.h"
 
 // Sets default values
 ASmashCharacter::ASmashCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
@@ -21,20 +21,18 @@ void ASmashCharacter::BeginPlay()
 	CreateStateMachine();
 	InitializeStateMachine();
 }
-
 // Called every frame
 void ASmashCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	TickStateMachine(DeltaTime);
 	RotateMeshUsingOrientX();
-
 }
 
 // Called to bind functionality to input
 void ASmashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
 float ASmashCharacter::GetOrientX() const
@@ -65,3 +63,8 @@ void ASmashCharacter::InitializeStateMachine()
 	StateMachine->Init(this);
 }
 
+void ASmashCharacter::TickStateMachine(float DeltaTime) const
+{
+	if (StateMachine == nullptr)return;
+	StateMachine->Tick(DeltaTime);
+}

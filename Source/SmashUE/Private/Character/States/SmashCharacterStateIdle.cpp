@@ -29,3 +29,14 @@ void USmashCharacterStateIdle::StateExit(ESmashCharacterStateID NextStateID)
 		FString::Printf(TEXT("ExitStateIdle"))
 	);
 }
+
+void USmashCharacterStateIdle::StateTick(float DeltaTime)
+{
+	Super::StateTick(DeltaTime);
+	/*GEngine->AddOnScreenDebugMessage(
+		-1,
+		3.f,
+		FColor::Green,
+		FString::Printf(TEXT("TickStateIdle"))
+	);*/
+}

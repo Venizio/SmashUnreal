@@ -22,6 +22,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeState(ESmashCharacterStateID NextStateID);
 	USmashCharacterState* GetState(ESmashCharacterStateID StateID);
+	void Tick(float DeltaTime) const;
 
 protected:
 	UPROPERTY()

@@ -70,3 +70,9 @@ void USmashCharacterStateMachine::InitializeState()
 	}
 }
 
+void USmashCharacterStateMachine::Tick(float DeltaTime) const
+{
+	if(CurrentState == nullptr)return;
+	CurrentState->StateTick(DeltaTime);
+}
+
