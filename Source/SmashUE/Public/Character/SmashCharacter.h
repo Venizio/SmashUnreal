@@ -3,10 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SmashCharacterInputData.h"
+#include "SmashCharacterSettings.h"
 #include "GameFramework/Character.h"
 #include "SmashCharacter.generated.h"
 
+
 class USmashCharacterStateMachine;
+
 
 UCLASS()
 class SMASHUE_API ASmashCharacter : public ACharacter
@@ -48,11 +52,20 @@ public:
 	void TickStateMachine(float DeltaTime) const;
 
 protected:
-	UPROPERTY(EditAnywhere)
-	UAnimMontage* WalkMontage;
-	
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<USmashCharacterStateMachine> StateMachine;
 
+#pragma endregion
+
+
+#pragma region Input data / MappingContext
+public:
+	UPROPERTY()
+	TObjectPtr<USmashCharacterInputData> InputData;
+	UPROPERTY()
+	TObjectPtr<UInputMappingContext> InputMappingContext;
+	protected:
+	void SetupMappingContextIntoController() const;
+	
 #pragma endregion
 };

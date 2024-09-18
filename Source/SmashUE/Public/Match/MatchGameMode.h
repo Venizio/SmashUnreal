@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Arena/ArenaSettings.h"
+#include "Character/SmashCharacterInputData.h"
 #include "GameFramework/GameModeBase.h"
 #include "MatchGameMode.generated.h"
 class AArenaPlayerStart;
@@ -18,9 +20,10 @@ class SMASHUE_API AMatchGameMode : public AGameModeBase
 public:
 	virtual void BeginPlay() override;
 
-private:
-	TSubclassOf<ASmashCharacter> GetSmashCharacterClassFromInputType(EAutoReceiveInput::Type InputType) const;
-	void FindPlayerStartActorsInArena(TArray<AArenaPlayerStart*>& ResultsActors);
+	static USmashCharacterInputData* LoadInputDataFromConfig();
+	static UInputMappingContext* LoadInputMappingContextFromConfig();
+	static TSubclassOf<ASmashCharacter> GetSmashCharacterClassFromInputType(EAutoReceiveInput::Type InputType);
+	void FindPlayerStartActorsInArena(TArray<AArenaPlayerStart*>& ResultsActors) const;
 	void SpawnCharacter(const TArray<AArenaPlayerStart*>& SpawnPoints);
 
 protected:
