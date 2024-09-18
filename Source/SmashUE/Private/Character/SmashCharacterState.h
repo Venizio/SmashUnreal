@@ -18,7 +18,7 @@ public:
 	// Sets default values for this component's properties
 	USmashCharacterState();
 
-	virtual ESmashCharacterStateID GetStateID() const;
+	virtual ESmashCharacterStateID GetStateID();
 	virtual void StateInitialize(USmashCharacterStateMachine* InStateMachine);
 
 	protected:

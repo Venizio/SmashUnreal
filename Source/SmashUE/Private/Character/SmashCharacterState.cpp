@@ -16,7 +16,7 @@ USmashCharacterState::USmashCharacterState()
 	// ...
 }
 
-ESmashCharacterStateID USmashCharacterState::GetStateID() const
+ESmashCharacterStateID USmashCharacterState::GetStateID()
 {
 	return ESmashCharacterStateID::None;
 }

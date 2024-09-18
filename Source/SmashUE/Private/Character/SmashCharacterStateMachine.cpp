@@ -9,6 +9,8 @@
 void USmashCharacterStateMachine::Init(ASmashCharacter* InCharacter)
 {
 	Character = InCharacter;
+	FindState();
+	InitializeState();
 }
 
 ASmashCharacter* USmashCharacterStateMachine::GetCharacter() const

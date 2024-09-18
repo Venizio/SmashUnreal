@@ -19,7 +19,7 @@ void ASmashCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	CreateStateMachine();
-	InitializeComponents();
+	InitializeStateMachine();
 }
 
 // Called every frame
@@ -63,6 +63,5 @@ void ASmashCharacter::InitializeStateMachine()
 {
 	if (StateMachine == nullptr) return;
 	StateMachine->Init(this);
-		
 }
 
