@@ -4,7 +4,7 @@
 #include "Character/States/SmashCharacterStateWalk.h"
 
 #include "Character/SmashCharacter.h"
-
+#include "Character/SmashCharacterStateMachine.h"
 
 ESmashCharacterStateID USmashCharacterStateWalk::GetStateID()
 {
@@ -16,10 +16,10 @@ void USmashCharacterStateWalk::StateEnter(ESmashCharacterStateID PreviousStateID
 	Super::StateEnter(PreviousStateID);
 	Character->PlayAnimMontage(WalkMontage);
 	GEngine->AddOnScreenDebugMessage(
-	-1,
-	3.f,
-	FColor::Orange,
-	FString::Printf(TEXT("EnterStateWalk"))
+		-1,
+		3.f,
+		FColor::Orange,
+		FString::Printf(TEXT("EnterStateWalk"))
 	);
 }
 
@@ -38,12 +38,20 @@ void USmashCharacterStateWalk::StateExit(ESmashCharacterStateID NextStateID)
 void USmashCharacterStateWalk::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
-	Character->AddMovementInput(FVector::ForwardVector);
-
-	/*GEngine->AddOnScreenDebugMessage(
+	GEngine->AddOnScreenDebugMessage(
 		-1,
 		3.f,
 		FColor::Green,
 		FString::Printf(TEXT("TickStateWalk"))
-	);*/
+	);
+
+	if (FMath::Abs(Character->GetInputMoveX()) < 0.1f)
+	{
+		StateMachine->ChangeState(ESmashCharacterStateID::Idle);
+	}
+	else
+	{
+		Character->SetOrientX(Character->GetInputMoveX());
+		Character->AddMovementInput(FVector::ForwardVector, Character->GetOrientX());
+	}
 }

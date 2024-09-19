@@ -3,11 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "EnhancedPlayerInput.h"
+#include "InputMappingContext.h"
 #include "SmashCharacterInputData.h"
 #include "Engine/DeveloperSettings.h"
 #include "SmashCharacterSettings.generated.h"
-
 /**
  * 
  */

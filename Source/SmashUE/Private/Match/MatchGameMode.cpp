@@ -3,6 +3,7 @@
 
 #include "Match/MatchGameMode.h"
 #include "Kismet/GameplayStatics.h"
+#include "Character/SmashCharacterSettings.h"
 #include "Arena/ArenaPlayerStart.h"
 #include "Arena/ArenaSettings.h"
 #include "Character/SmashCharacter.h"
@@ -81,7 +82,7 @@ void AMatchGameMode::SpawnCharacter(const TArray<AArenaPlayerStart*>& SpawnPoint
 {
 	USmashCharacterInputData* InputData = LoadInputDataFromConfig();
 	UInputMappingContext* InputMappingContext = LoadInputMappingContextFromConfig();
-	
+
 	for (AArenaPlayerStart* SpawnPoint : SpawnPoints)
 	{
 		EAutoReceiveInput::Type InputType = SpawnPoint->AutoReceiveInput.GetValue();
@@ -97,6 +98,4 @@ void AMatchGameMode::SpawnCharacter(const TArray<AArenaPlayerStart*>& SpawnPoint
 		NewCharacter->FinishSpawning(SpawnPoint->GetTransform());
 		CharactersInsideArena.Add(NewCharacter);
 	}
-
-	
 }

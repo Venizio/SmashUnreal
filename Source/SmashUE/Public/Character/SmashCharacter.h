@@ -59,13 +59,30 @@ protected:
 
 
 #pragma region Input data / MappingContext
+
 public:
 	UPROPERTY()
 	TObjectPtr<USmashCharacterInputData> InputData;
 	UPROPERTY()
 	TObjectPtr<UInputMappingContext> InputMappingContext;
-	protected:
+
+protected:
 	void SetupMappingContextIntoController() const;
-	
+
+#pragma endregion
+
+
+#pragma region inputMoveX
+
+public:
+	float GetInputMoveX() const;
+
+protected:
+	UPROPERTY()
+	float InputMoveX = 0.f;
+
+private:
+	void OnInputMoveX(const FInputActionValue& InputActionValue);
+	void BindInputMoveXAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent);
 #pragma endregion
 };
