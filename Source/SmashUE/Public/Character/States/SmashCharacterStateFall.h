@@ -4,23 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "Character/SmashCharacterState.h"
-#include "SmashCharacterStateIdle.generated.h"
+#include "SmashCharacterStateFall.generated.h"
 
 
-UCLASS(ClassGroup=(SmashCharacterState), meta=(BlueprintSpawnableComponent))
-class SMASHUE_API USmashCharacterStateIdle : public USmashCharacterState
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+class SMASHUE_API USmashCharacterStateFall : public USmashCharacterState
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this component's properties
 	virtual ESmashCharacterStateID GetStateID() override;
 	virtual void StateEnter(ESmashCharacterStateID PreviousStateID) override;
-	UFUNCTION()
-	void OnInputMoveXFast(float InputMoveX);
 	virtual void StateExit(ESmashCharacterStateID NextStateID) override;
 	virtual void StateTick(float DeltaTime) override;
-private:
+	
+
+protected:
 	UPROPERTY(EditAnywhere)
-	UAnimMontage* IdleMontage;
+	UAnimMontage* FallMontage;
 };

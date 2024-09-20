@@ -71,18 +71,46 @@ protected:
 
 #pragma endregion
 
-
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInputMoveXEvent, float, inputMoveX);
 #pragma region inputMoveX
 
 public:
 	float GetInputMoveX() const;
+	void SetInputMoveXTreshold(float XTreshOldValue);
+	UPROPERTY()
+	FInputMoveXEvent InputMoveXFastEvent;
 
 protected:
 	UPROPERTY()
 	float InputMoveX = 0.f;
+	float InputMoveY = 0.f;
+
+public:
+	float GetInputMoveY() const
+	{
+		return InputMoveY;
+	}
+
+	void SetInputMove(float inInputMoveY)
+	{
+		this->InputMoveY = inInputMoveY;
+	}
+
+protected:
+	float InputMoveXTreshHold;
+
+public:
+	float GetInputMoveXTreshHold() const
+	{
+		return InputMoveXTreshHold;
+	}
 
 private:
 	void OnInputMoveX(const FInputActionValue& InputActionValue);
+	void OnInputMoveY(const FInputActionValue& InputActionValue);
+	void OnInputMoveXFast(const FInputActionValue& InputActionValue);
+	void OnCanceledInput();
 	void BindInputMoveXAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent);
+	void BindInputMoveYAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent);
 #pragma endregion
 };

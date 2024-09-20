@@ -23,6 +23,7 @@ public:
 
 	USmashCharacterInputData* LoadInputDataFromConfig();
 	UInputMappingContext* LoadInputMappingContextFromConfig();
+	float LoadXTreshHoldFromConfig();
 	TSubclassOf<ASmashCharacter> GetSmashCharacterClassFromInputType(EAutoReceiveInput::Type InputType);
 	void FindPlayerStartActorsInArena(TArray<AArenaPlayerStart*>& ResultsActors) const;
 	void SpawnCharacter(const TArray<AArenaPlayerStart*>& SpawnPoints);

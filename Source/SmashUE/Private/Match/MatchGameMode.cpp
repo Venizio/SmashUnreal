@@ -42,6 +42,13 @@ UInputMappingContext* AMatchGameMode::LoadInputMappingContextFromConfig()
 	return CharacterSettings->InputMappingContext.LoadSynchronous();
 }
 
+float AMatchGameMode::LoadXTreshHoldFromConfig()
+{
+	const USmashCharacterSettings* CharacterSettings = GetDefault<USmashCharacterSettings>();
+	if (CharacterSettings == nullptr) return 0;
+	return CharacterSettings->InputMoveXTreshHold;
+}
+
 TSubclassOf<ASmashCharacter> AMatchGameMode::GetSmashCharacterClassFromInputType(
 	EAutoReceiveInput::Type InputType)
 {
@@ -82,7 +89,7 @@ void AMatchGameMode::SpawnCharacter(const TArray<AArenaPlayerStart*>& SpawnPoint
 {
 	USmashCharacterInputData* InputData = LoadInputDataFromConfig();
 	UInputMappingContext* InputMappingContext = LoadInputMappingContextFromConfig();
-
+	
 	for (AArenaPlayerStart* SpawnPoint : SpawnPoints)
 	{
 		EAutoReceiveInput::Type InputType = SpawnPoint->AutoReceiveInput.GetValue();
@@ -92,6 +99,7 @@ void AMatchGameMode::SpawnCharacter(const TArray<AArenaPlayerStart*>& SpawnPoint
 			ASmashCharacter>(SmashCharacterClass, SpawnPoint->GetTransform());
 		if (NewCharacter == nullptr) continue;
 		NewCharacter->InputData = InputData;
+		NewCharacter->SetInputMoveXTreshold(LoadXTreshHoldFromConfig());
 		NewCharacter->InputMappingContext = InputMappingContext;
 		NewCharacter->AutoPossessPlayer = SpawnPoint->AutoReceiveInput;
 		NewCharacter->SetOrientX(SpawnPoint->GetStartOrientX());

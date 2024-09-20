@@ -8,6 +8,7 @@
 #include "Interfaces/ITargetDevice.h"
 #include "Kismet/GameplayStatics.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 ASmashCharacter::ASmashCharacter()
@@ -21,6 +22,7 @@ void ASmashCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	CreateStateMachine();
+	GetCharacterMovement()->JumpZVelocity = 1000.f;
 	InitializeStateMachine();
 }
 
@@ -41,6 +43,7 @@ void ASmashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 	if (EnhancedInputComponent == nullptr) return;
 	BindInputMoveXAxisAndActions(EnhancedInputComponent);
+	BindInputMoveYAxisAndActions(EnhancedInputComponent);
 }
 
 float ASmashCharacter::GetOrientX() const
@@ -75,8 +78,6 @@ void ASmashCharacter::TickStateMachine(float DeltaTime) const
 {
 	if (StateMachine == nullptr)return;
 	StateMachine->Tick(DeltaTime);
-
-	
 }
 
 void ASmashCharacter::SetupMappingContextIntoController() const
@@ -95,9 +96,37 @@ float ASmashCharacter::GetInputMoveX() const
 	return InputMoveX;
 }
 
+void ASmashCharacter::SetInputMoveXTreshold(float XTreshOldValue)
+{
+	InputMoveXTreshHold = XTreshOldValue;
+}
+
 void ASmashCharacter::OnInputMoveX(const FInputActionValue& InputActionValue)
 {
 	InputMoveX = InputActionValue.Get<float>();
+}
+
+void ASmashCharacter::OnInputMoveY(const FInputActionValue& InputActionValue)
+{
+	InputMoveY = InputActionValue.Get<float>();
+	GEngine->AddOnScreenDebugMessage(
+		-1,
+		3.f,
+		FColor::Orange,
+		FString::Printf(TEXT("%f"), InputMoveY)
+	);
+}
+
+void ASmashCharacter::OnInputMoveXFast(const FInputActionValue& InputActionValue)
+{
+	InputMoveX = InputActionValue.Get<float>();
+	InputMoveXFastEvent.Broadcast(InputMoveX);
+}
+
+void ASmashCharacter::OnCanceledInput()
+{
+	InputMoveX = 0;
+	InputMoveY = 0;
 }
 
 void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent)
@@ -111,11 +140,40 @@ void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* Enha
 			this,
 			&ASmashCharacter::OnInputMoveX
 		);
+
 		EnhancedInputComponent->BindAction(
 			InputData->InputActionMoveX,
+			ETriggerEvent::Completed,
+			this,
+			&ASmashCharacter::OnCanceledInput
+		);
+	}
+	if (InputData->InputActionMoveXFast)
+	{
+		EnhancedInputComponent->BindAction(
+			InputData->InputActionMoveXFast,
 			ETriggerEvent::Triggered,
 			this,
-			&ASmashCharacter::OnInputMoveX
-		);
+			&ASmashCharacter::OnInputMoveXFast);
+	}
+}
+
+void ASmashCharacter::BindInputMoveYAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent)
+{
+	if (InputData == nullptr)return;
+	if (InputData->InputActionMoveY)
+	{
+		EnhancedInputComponent->BindAction(
+			InputData->InputActionMoveY,
+			ETriggerEvent::Started,
+			this,
+			&ASmashCharacter::OnInputMoveY);
+
+
+		EnhancedInputComponent->BindAction(
+			InputData->InputActionMoveY,
+			ETriggerEvent::Completed,
+			this,
+			&ASmashCharacter::OnCanceledInput);
 	}
 }
