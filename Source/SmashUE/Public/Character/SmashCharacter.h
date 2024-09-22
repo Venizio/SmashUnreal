@@ -113,4 +113,8 @@ private:
 	void BindInputMoveXAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent);
 	void BindInputMoveYAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent);
 #pragma endregion
+
+
+public:
+	int NbJump;
 };

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Animation/BlendSpace1D.h"
 #include "Character/SmashCharacterState.h"
 #include "SmashCharacterStateJump.generated.h"
 

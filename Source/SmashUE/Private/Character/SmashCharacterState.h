@@ -9,6 +9,7 @@
 
 class ASmashCharacter;
 class USmashCharacterStateMachine;
+
 UCLASS(Abstract)
 class SMASHUE_API USmashCharacterState : public UActorComponent
 {
@@ -24,7 +25,7 @@ public:
 	virtual void StateExit(ESmashCharacterStateID NextStateID);
 	virtual void StateTick(float DeltaTime);
 
-	protected:
+protected :
 	UPROPERTY()
 	TObjectPtr<ASmashCharacter> Character;
 	UPROPERTY()

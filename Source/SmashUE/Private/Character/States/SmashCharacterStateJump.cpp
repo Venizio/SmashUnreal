@@ -17,6 +17,7 @@ void USmashCharacterStateJump::StateEnter(ESmashCharacterStateID PreviousStateID
 {
 	Super::StateEnter(PreviousStateID);
 	Character->PlayAnimMontage(JumpMontage);
+
 	Character->Jump();
 	Character->GetCharacterMovement()->bNotifyApex = true;
 	Character->OnReachedJumpApex.AddDynamic(this, &USmashCharacterStateJump::OnTopReached);
@@ -32,6 +33,7 @@ void USmashCharacterStateJump::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
 	Character->StopAnimMontage(JumpMontage);
+
 	Character->OnReachedJumpApex.RemoveDynamic(this, &USmashCharacterStateJump::OnTopReached);
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -43,7 +45,16 @@ void USmashCharacterStateJump::StateExit(ESmashCharacterStateID NextStateID)
 
 void USmashCharacterStateJump::OnTopReached()
 {
-	StateMachine->ChangeState(ESmashCharacterStateID::Fall);
+	if (Character->NbJump < 1)
+	{
+		Character->NbJump++;
+		StateMachine->ChangeState(ESmashCharacterStateID::Jump);
+	}
+	else
+	{
+		Character->NbJump = 0;
+		StateMachine->ChangeState(ESmashCharacterStateID::Fall);
+	}
 }
 
 void USmashCharacterStateJump::StateTick(float DeltaTime)
